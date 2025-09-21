@@ -2,18 +2,19 @@ import { useEffect, useState } from "react";
 
 import NotaForm from "./components/NotaForm";
 import NotaList from "./components/NotaList";
+const API_URL = import.meta.env.VITE_API_URL;
 
 function App() {
   const [notas, setNotas] = useState([]);
 
   const cargarNotas = async () => {
-    const res = await fetch("http://localhost:3001/api/notas");
+    const res = await fetch(`${API_URL}/api/notas`);
     const data = await res.json();
     setNotas(data);
   };
 
   const agregarNota = async (titulo, contenido) => {
-    const res = await fetch("http://localhost:3001/api/notas", {
+    const res = await fetch(`${API_URL}/api/notas`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ titulo, contenido }),
@@ -23,7 +24,7 @@ function App() {
   };
 
   const eliminarNota = async (id) => {
-    await fetch(`http://localhost:3001/api/notas/${id}`, { method: "DELETE" });
+    await fetch(`${API_URL}/api/notas/${id}`, { method: "DELETE" });
     setNotas(notas.filter((n) => n.id !== id));
   };
 
